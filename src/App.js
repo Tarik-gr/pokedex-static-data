@@ -1,23 +1,70 @@
-import logo from './logo.svg';
 import './App.css';
+import React ,{useState, useEffect} from 'react'
+import {pokemonData} from './components/data'
+import PokemonList from './components/PokemonList'
+import SearchBar from './components/SearchBar'
+import SortBtn from './components/SortBtn'
+import TotalWeight from './components/TotalWeight'
 
 function App() {
+
+  const initialPokemonList = pokemonData // static data 
+  const [pokemonList, setPokemonList] = useState(initialPokemonList) // pokemon List state
+
+  // sort by Id function 
+  const sortByID = ()=>{
+    let arrayToSort = [...pokemonList]
+    let arraySorted = arrayToSort.sort((a,b)=>a.id-b.id)
+    setPokemonList(arraySorted)
+  } 
+
+  // sort by name function 
+  const sortByName = ()=>{
+    let arrayToSort = [...pokemonList]
+    console.log(arrayToSort)
+    arrayToSort.sort((a,b)=>{
+      let nameA = a.name.toLowerCase();
+      let nameB = b.name.toLowerCase();
+      if (nameA < nameB){return -1}
+      if (nameA > nameB){return 1}
+      return 0
+    })
+    setPokemonList(arrayToSort)
+  } 
+
+  // sort by type function 
+  const sortByType = ()=>{
+    let arrayToSort = [...pokemonList]
+    console.log(arrayToSort)
+    arrayToSort.sort((a,b)=>{
+      let typeofA = a.types[0].name
+      let typeofB = b.types[0].name
+      if (typeofA < typeofB){return -1}
+      if (typeofA > typeofB){return 1}
+      return 0
+    })
+    setPokemonList(arrayToSort)
+  } 
+
+  // handle search function 
+  const handleSearch = (e,value)=>{
+    e.preventDefault();
+    let arrayData = [...initialPokemonList]
+    let result = arrayData.filter(pokemon =>{
+      let types = ''
+      pokemon.types.forEach(type=>types+=`${type.name} `)
+      return (pokemon.name.includes(value) || types.includes(value))
+    })
+    setPokemonList(result)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App-container">
+      <h1>Pokédex</h1>
+      <SortBtn sortByID={sortByID} sortByName={sortByName} sortByType={sortByType}/>
+      <SearchBar handleSearch={handleSearch}/>
+      <PokemonList pokemonList={pokemonList}/>
+      <TotalWeight pokemonList={initialPokemonList}/>
     </div>
   );
 }
