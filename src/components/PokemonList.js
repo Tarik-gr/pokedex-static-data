@@ -15,12 +15,12 @@ const PokemonList = ({pokemonList}) => {
         <div> 
             {pokemonList.map((pokemon, index)=>(
             <div onClick={()=>handleDisplay(pokemon.id)} key={index} className='listItemContainer'>
-                <img src={pokemon.img} alt={pokemon.name} />
+                <img src={pokemon.sprites.front_default} alt={pokemon.name} />
                 <div className ='listInfo'>
                     <div>Nom : {pokemon.name}</div>
-                    <ul>Type : {pokemon.types.map(type=><li>{type.name}</li>)}</ul>
+                    <ul>Type : {pokemon.types.map(type=><li>{type.type.name}</li>)}</ul>
                 </div>
-                <div className="pokemon-id">{pokemon.id}</div>
+                <div className="pokemon-id">ID : {pokemon.id}</div>
                 <Description display={display[pokemon.id-1]} pokemon={pokemon}/>
             </div>))}
         </div> 

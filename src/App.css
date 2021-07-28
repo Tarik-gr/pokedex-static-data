@@ -136,3 +136,37 @@ body {
   color:#fff;
   margin: 2rem 0;
 }
+
+.overlay{
+  position:fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index: 100;
+  color:#fff;
+  font-family: 'Roboto', arial, helvetica;
+
+  cursor :pointer;
+}
+
+.overlay.visible{
+  animation : overlay-grow 1000ms forwards;
+}
+
+@keyframes overlay-grow {
+  from {
+    background-color:rgba(0,0,0,0);
+    font-size:0;
+  } to {
+    background-color:rgba(0,0,0,0.8);
+    font-size:5rem;
+
+  }
+}
+.invisible {
+  display:none;
+}
